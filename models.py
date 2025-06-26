@@ -1,5 +1,6 @@
 import os
 from pymongo import MongoClient
+import certifi
 from flask import current_app
 
 
