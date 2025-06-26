@@ -9,7 +9,9 @@ def init_db(app):
     Flask 앱에 MongoDB 연결을 설정하고, app.db 속성으로 클라이언트 인스턴스를 저장
     """
     mongo_uri = os.environ.get("MONGO_URI")
-    client = MongoClient(mongo_uri, tlsCAFile=certifi.where())
+    client = MongoClient(mongo_uri, 
+                         tls=True,
+                         tlsCAFile=certifi.where())
     # 사용할 데이터베이스 이름: wish_tree
     app.db = client.get_database("wish_tree")
 
