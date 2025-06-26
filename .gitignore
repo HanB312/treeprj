@@ -1,0 +1,27 @@
+# Python 관련
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상환경
+treeprj/
+/Lib/
+/Scripts/
+.env
+/pyvenv.cfg
+
+# 빌드/배포
+build/
+dist/
+*.egg-info/
+
+# 테스트 캐시 및 로그
+.pytest_cache/
+*.log
+
+# IDE/에디터
+.vscode/
+.idea/
+
+# 운영체제
+.DS_Store

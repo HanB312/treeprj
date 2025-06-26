@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>내 소원나무 대시보드</h1>
+  {% if stage and stage > 0 %}
+    <p>현재 단계: {{ stage }} / 5</p>
+    <img src="{{ url_for('static', filename='tree0' ~ stage ~ '.png') }}" alt="Tree Level {{ stage }}">
+    <p>진행도: {{ current }} / {{ target }}</p>
+    {% if stage == 5 %}
+      <h2>🎉 축하합니다! 목표를 완전히 달성했습니다! 🎉</h2>
+    {% else %}
+      <form method="post" action="{{ url_for('update_progress', goal_id=goal_id) }}">
+        <input type="hidden" name="goal_id" value="{{ goal_id }}">
+        <label>오늘 달성량: <input type="number" name="increment" step="0.1"></label>
+        <button type="submit">업데이트</button>
+      </form>
+    {% endif %}
+  {% else %}
+    <p>아직 생성된 목표가 없습니다.</p>
+    <form method="post" action="{{ url_for('create_goal') }}">
+      <label>목표명: <input type="text" name="title"></label><br>
+      <label>목표 수치: <input type="number" name="target_value" step="0.1"></label><br>
+      <button type="submit">목표 생성</button>
+    </form>
+  {% endif %}
+  <p><a href="{{ url_for('auth.logout') }}">로그아웃</a></p>
+</body>
+</html>
+```## 9. Dockerfile
+
+```dockerfile
+# 베이스 이미지
+FROM python:3.9-slim
+
+# 작업 디렉터리 설정
+WORKDIR /app
+
+# 종속성 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 소스 복사
+COPY . .
+
+# 컨테이너 내부 포트 설정
+EXPOSE 5000
+
+# 런타임 환경 변수 (MONGO_URI, SECRET_KEY) 는 docker run 시 주입
+# 예: docker run --env MONGO_URI="<uri>" --env SECRET_KEY="<key>" -p 5000:5000 wish-tree:latest
+
+# 애플리케이션 실행
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:create_app()"]
