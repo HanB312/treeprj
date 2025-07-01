@@ -1,32 +1,70 @@
+<!-- templates/dashboard.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>대시보드</title>
 </head>
 <body>
-  <h1>내 소원나무 대시보드</h1>
-  {% if stage and stage > 0 %}
-    <p>현재 단계: {{ stage }} / 5</p>
-    <img src="{{ url_for('static', filename='tree0' ~ stage ~ '.png') }}" alt="Tree Level {{ stage }}">
-    <p>진행도: {{ current }} / {{ target }}</p>
-    {% if stage == 5 %}
-      <h2>🎉 축하합니다! 목표를 완전히 달성했습니다! 🎉</h2>
-    {% else %}
-      <form method="post" action="{{ url_for('update_progress', goal_id=goal_id) }}">
-        <input type="hidden" name="goal_id" value="{{ goal_id }}">
-        <label>오늘 달성량: <input type="number" name="increment" step="0.1"></label>
-        <button type="submit">업데이트</button>
-      </form>
-    {% endif %}
-  {% else %}
-    <p>아직 생성된 목표가 없습니다.</p>
-    <form method="post" action="{{ url_for('create_goal') }}">
-      <label>목표명: <input type="text" name="title"></label><br>
-      <label>목표 수치: <input type="number" name="target_value" step="0.1"></label><br>
-      <button type="submit">목표 생성</button>
+  <h1>🌳 나무 키우기 대시보드</h1>
+
+  <!-- 현재 목표 -->
+  <section>
+    <h2>현재 목표: {{ goal.title }}</h2>
+  </section>
+
+  <!-- 달성량 및 진행도 -->
+  <section>
+    <p>
+      달성량: <strong>{{ completed }} / {{ goal.target_value }}</strong>
+      ({{ percent }}%)
+    </p>
+  </section>
+
+  <!-- 물주기 버튼 -->
+  <section>
+    <form action="{{ url_for('water', goal_id=goal._id) }}" method="post">
+      <button type="submit">💧 물주기</button>
     </form>
+  </section>
+
+  <!-- 나무 이미지 -->
+  <section>
+    <img
+      src="{{ url_for('static', filename='tree0' ~ goal.growth_stage ~ '.png') }}"
+      alt="나무 레벨 {{ goal.growth_stage }}"
+    >
+  </section>
+
+  {% if completed >= goal.target_value %}
+    <!-- 목표 달성 후 신규 목표 등록 -->
+    <section>
+      <h3>🎉 목표 달성! 새로운 목표를 등록해 보세요</h3>
+      <form action="{{ url_for('create_goal') }}" method="post">
+        <input type="text" name="title" placeholder="새 목표 제목" required>
+        <input type="number" name="target_value" placeholder="새 목표 수치" min="1" required>
+        <button type="submit">새 목표 등록</button>
+      </form>
+    </section>
+
+    <!-- 비슷한 목표 추천 -->
+    <section>
+      <h3>🔍 비슷한 목표 추천</h3>
+      {% if similar_goals %}
+        <ul>
+          {% for sim in similar_goals %}
+            <li>
+              {{ sim.title }} — 목표: {{ sim.target_value }}
+              (등록일: {{ sim.created_at.strftime('%Y-%m-%d') }})
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>아직 비슷한 목표가 없어요.</p>
+      {% endif %}
+    </section>
   {% endif %}
+
   <p><a href="{{ url_for('auth.logout') }}">로그아웃</a></p>
 </body>
 </html>
