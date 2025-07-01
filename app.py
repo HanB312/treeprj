@@ -41,21 +41,23 @@ def create_app():
     app.register_blueprint(auth_bp)
 
     @app.route('/')
-    @login_required
     def index():
-        # 로그인한 유저라면 목표가 있는지 확인
+        # 1) 비로그인 사용자는 환영 화면 (로그인/회원가입 링크) 보여주기
+        if 'user_id' not in session:
+            return render_template('index.html', first_goal=False)
+
+        # 2) 로그인된 사용자는 목표가 있는지 확인
         db = get_db()
         user_id = session['user_id']
         has_goal = db.goals.find_one({'user_id': ObjectId(user_id)}) is not None
-        if not has_goal:
-            # 목표가 없으면 대시보드 대신 바로 목표 생성 폼 출력
-            return render_template('index.html', first_goal=True)
-        return redirect(url_for('dashboard'))
 
-    @index.login_manager.unauthorized_handler
-    def index_unauth():
-        # 비로그인 시에는 로그인/회원가입 페이지
-        return render_template('index.html')
+        # 2-1) 목표 없으면 첫 목표 등록 폼
+        if not has_goal:
+            return render_template('index.html', first_goal=True)
+
+        # 2-2) 목표 있으면 대시보드로 이동
+        return redirect(url_for('dashboard'))
+    
 
     @app.route('/goals', methods=['POST'])
     @login_required
