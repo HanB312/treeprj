@@ -71,7 +71,7 @@ def create_app():
             'title': title,
             'target_value': target_value,
             'current_value': 0,
-            'growth_stage': 1,
+            'growth_stage': 0,
             'created_at': datetime.utcnow()
         }
         db.goals.insert_one(goal)
