@@ -14,7 +14,13 @@ def init_db(app):
     mongo_uri = os.environ.get("MONGO_URI")
     client = MongoClient(mongo_uri, 
                          tls=True,
+<<<<<<< HEAD
                          tlsCAFile=certifi.where())
+=======
+                         tlsCAFile=certifi.where()
+                         #tlsAllowInvalidCertificates=True
+                         )
+>>>>>>> 3c31cbc (update)
     # 사용할 데이터베이스 이름: wish_tree
     app.db = client.get_database("wish_tree")
 
