@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url={{ url_for('auth.login') }}">
-  <title>Wish Tree</title>
+  <title>Wish Tree 시작</title>
 </head>
 <body>
-  <p>Redirecting to <a href="{{ url_for('auth.login') }}">login</a>...</p>
+  {% if first_goal %}
+    <section>
+      <h2>🎯 첫 번째 목표를 등록하세요</h2>
+      <form action="{{ url_for('create_goal') }}" method="post">
+        <input type="text" name="title" placeholder="목표 제목" required>
+        <input type="number" name="target_value" placeholder="목표 수치" min="1" required>
+        <button type="submit">목표 등록</button>
+      </form>
+    </section>
+  {% else %}
+    <h1>🌳 소원나무 프로젝트에 오신 것을 환영합니다!</h1>
+    <p>
+      먼저 <a href="{{ url_for('auth.login') }}">로그인</a>하거나
+      <a href="{{ url_for('auth.register') }}">회원가입</a> 후
+      목표를 설정해 보세요.
+    </p>
+  {% endif %}
 </body>
 </html>
