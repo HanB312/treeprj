@@ -1,6 +1,0 @@
-Collecting certifi
-  Downloading certifi-2025.6.15-py3-none-any.whl.metadata (2.4 kB)
-Downloading certifi-2025.6.15-py3-none-any.whl (157 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 157.7/157.7 kB 4.1 MB/s eta 0:00:00
-Installing collected packages: certifi
-Successfully installed certifi-2025.6.15
