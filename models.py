@@ -16,7 +16,6 @@ def init_db(app):
                          tls=True,
                          tlsCAFile=certifi.where())
 
-                         )
     # 사용할 데이터베이스 이름: treePrj
     app.db = client.get_database("treePrj")
 
