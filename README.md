@@ -97,7 +97,7 @@ wish-tree/
 ├── models.py                # MongoDB 연결 모듈
 ├── requirements.txt         # 의존성 패키지 목록
 ├── Dockerfile               # Docker 이미지 정의 파일
-├── app.yaml                 # App Engine 배포 설정
+├── cloudbuild.yaml          # 배포 설정
 ├── templates/               # HTML 템플릿 폴더
 │   ├── index.html
 │   ├── login.html
