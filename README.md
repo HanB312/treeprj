@@ -44,7 +44,7 @@
 
 ### 사전 준비
 
-1. Git 클론
+1. Git clone
 
 ```bash
 git clone https://github.com/HanB312/treeprj.git
