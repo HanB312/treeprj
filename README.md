@@ -47,7 +47,7 @@
 1. Git 클론
 
 ```bash
-git clone https://github.com/<your-username>/<wish-tree-repo>.git
+git clone https://github.com/HanB312/treeprj.git
 cd wish-tree
 ```
 
