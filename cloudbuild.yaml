@@ -28,17 +28,6 @@ steps:
       - '--platform=managed'
       - '--allow-unauthenticated'
       - '--set-env-vars=MONGO_URI=${_MONGO_URI},SECRET_KEY=${_SECRET_KEY}'
-#  - name: 'gcr.io/cloud-builders/gcloud'
-#    entrypoint: 'bash'
-#    args:
-#      - '-c'
-#      - |
-#        gcloud run deploy wish-tree \
-#          --image gcr.io/$PROJECT_ID/wish-tree \
-#          --region asia-northeast3 \
-#          --platform managed \
-#          --allow-unauthenticated \
-#          --set-env-vars="MONGO_URI=$$_MONGO_URI,SECRET_KEY=$$_SECRET_KEY"
 
   # 4) substitution 변수 dummy 사용 (인식용)
   - name: 'gcr.io/cloud-builders/gcloud'
